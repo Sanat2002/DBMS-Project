@@ -91,6 +91,7 @@ def addemployee(request):
         address = request.POST.get("address")
         dept = request.POST.get("dept")
         degree = request.POST.get("degree")
+        salary = request.POST.get("salary")
         picurl = request.POST.get("picurl")
 
         cursor.execute(''' select email from employee ''')
@@ -108,6 +109,7 @@ def addemployee(request):
             cursor.execute(f''' select id from employee where employee.email = {email} ''')
             emp = cursor.fetchall()
             cursor.execute(f''' insert into rankk(eid,points) values({emp[0][0]},0) ''')
+            cursor.execute(f''' insert into salary(eid,base,bonus,total) values({emp[0][0]},{salary},0,{salary}) ''')
             messages.success(request,"Employee Added!!!")
     return render(request,"addemployee.html")
 
@@ -125,12 +127,33 @@ def deleteemployee(request,id):
     return HttpResponseRedirect("/viewemp")
 
 def assignproject(request):
+    cursor = connection.cursor()
+    if request.method == "POST":
+        eid = request.POST.get("eid")
+        pname = request.POST.get("pname")
+        duedate = request.POST.get("duedate")
+
+        command = ''' insert into project(eid,pname,duedate,mark,status) values(%s,%s,%s,1,"Due") '''
+        params = (eid,pname,duedate)
+        cursor.execute(command,params)
+        messages.success(request,"Assigned!!!")
     return render(request,"assignproject.html")
+
+def projectstatus(request):
+    cursor = connection.cursor()
+    cursor.execute(''' select * from project ''')
+    projects = cursor.fetchall()
+    return render(request,"projectstatus.html",{"projects":projects})
+
+def salarystatus(request):
+    cursor = connection.cursor()
+    cursor.execute(''' select eid,firstName,base,bonus,total from employee,salary where employee.id = salary.eid ''')
+    salaries = cursor.fetchall()
+    print(salaries)
+    return render(request,"salarystatus.html",{"salaries":salaries})
 
 
 def logout(request):
     cursor = connection.cursor()
-    cursor.execute(''' select * from user ''')
-    user = cursor.fetchall()
-    cursor.execute(f''' delete from user where id = {user[0][0]} ''')
+    cursor.execute(''' truncate table user ''') # delete all rows without destroying structure of table
     return HttpResponseRedirect("/")

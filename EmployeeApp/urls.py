@@ -9,4 +9,7 @@ urlpatterns = [
     path('viewemp',views.viewemployee,name="viewemployee"),
     path('deleteemp/<int:id>',views.deleteemployee,name="deleteemployee"),
     path('assgproj',views.assignproject,name="assignproject"),
+    path('projstat',views.projectstatus,name="projectstatus"),
+    path('salstat',views.salarystatus,name="salarystatus"),
+    path('logout',views.logout,name="logout"),
 ]

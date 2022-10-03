@@ -19,6 +19,18 @@
         </div>
     </nav>
 
+      {% for msg in messages %}
+      <div class="alert alert-warning alert-dismissible fade show" style="margin:1vw 2vw; position: absolute;top: 5vw;" role="alert">
+        <strong>{{msg}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+
+      <div style="border: 1px solid blue; height:100vh;width:100vw;">
+
+      </div>
+    
+
     <div id="login" class="d-none justify-content-center align-items-center" style="height: 100vh;width:100vw;position: absolute;top: 0;background-color: rgba(0, 0, 0, .7);">
         <div class="p-3" style="height: 35vw;width:40vw;background-color:white;border-radius: 1vw;">
             
@@ -48,11 +60,6 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <button id="canclebtn" type="reset" class="btn btn-warning">Cancle</button>
             </form>
-            <div class="text-danger">
-              {% for msg in messages %}
-                {{msg}}
-              {% endfor %}
-            </div>
         </div>
     </div>
 
