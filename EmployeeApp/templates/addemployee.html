@@ -1,0 +1,127 @@
+{% extends 'base1.html' %}
+{% block style %}
+    .title{
+      text-decoration: underline;
+      margin: 2vw 0;
+      font-size: 2.3vw;
+    }
+    input {
+      outline: none;
+      margin: 0;
+      border: none;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      width: 100%;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #ccc;
+    }
+    .card-1 .card-body {
+      padding: 0 90px;
+      padding-top: 55px;
+      padding-bottom: 65px;
+    }
+    {% endblock style %}
+
+
+{% block content %}
+  <div class="page-wrapper bg-blue p-t-100 p-b-100 font-robo">
+    <div class="wrapper wrapper--w680">
+      <div class="card card-1">
+        <div class="card-heading"></div>
+        <div class="card-body" style="display: flex;justify-content:center;width: 98.5vw;">
+          <div style="width: 80vw;">
+            <h2 class="title">Add Employee</h2>
+            <form action="" method="POST">
+                {% csrf_token %}
+              <div class="row row-space">
+                <div class="col-2">
+                  <div class="input-group">
+                    <input class="input--style-1" type="text" placeholder="First Name" name="firstName"
+                      required="required">
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="input-group">
+                    <input class="input--style-1" type="text" placeholder="Last Name" name="lastName"
+                      required="required">
+                  </div>
+                </div>
+              </div>
+
+              <div class="input-group">
+                <input class="input--style-1" type="email" placeholder="Email" name="email" required="required">
+              </div>
+              <p>Birthday</p>
+              <div class="row row-space">
+                <div class="col-2">
+                  <div class="input-group">
+                    <input class="input--style-1" type="date" placeholder="BIRTHDATE" name="birthday"
+                      required="required">
+
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="input-group">
+                    <div class="rs-select2 js-select-simple select--no-search">
+                      <select name="gender">
+                        <option disabled="disabled" selected="selected">GENDER</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                      </select>
+                      <div class="select-dropdown"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="input-group">
+                <input class="input--style-1" type="number" placeholder="Contact Number" name="contact"
+                  required="required">
+              </div>
+
+              <div class="input-group">
+                <input class="input--style-1" type="number" placeholder="NID" name="nid" required="required">
+              </div>
+
+
+              <div class="input-group">
+                <input class="input--style-1" type="text" placeholder="Address" name="address" required="required">
+              </div>
+
+              <div class="input-group">
+                <input class="input--style-1" type="text" placeholder="Department" name="dept" required="required">
+              </div>
+
+              <div class="input-group">
+                <input class="input--style-1" type="text" placeholder="Degree" name="degree" required="required">
+              </div>
+
+              <div class="input-group">
+                <input class="input--style-1" type="number" placeholder="Salary" name="salary">
+              </div>
+
+              <div class="input-group">
+                <input class="input--style-1" type="text" placeholder="Pic Url" name="picurl">
+              </div> 
+
+              <div class="p-t-20">
+                <button class="btn btn-success" type="submit">Submit</button>
+              </div>
+            </form>
+          </div>
+          {% for msg in messages %}
+            <div class="text-warning">{{msg}}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock content %}

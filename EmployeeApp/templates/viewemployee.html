@@ -1,0 +1,27 @@
+{% extends 'base1.html' %}
+{% block content %}
+<div class="text-center fs-2 text-decoration-underline fw-bold">Employees</div>
+<div class="d-flex flex-wrap" style="border:1px solid black;">
+    {% for emp in employees %}
+        <div class="card" style="width: 25rem;margin:1.3vw 3.4vw;">
+            <img src="{{emp.12}}" class="card-img-top" alt="..." style="height:15vw;width:25.8vw;">
+            <div class="card-body">
+            <h5 class="card-title text-center text-secondary">Details</h5>
+            <p class="card-text fw-bold">Emp. Id : <span class="text-secondary">{{emp.0}}</span></p>
+            <p class="card-text fw-bold">Name : <span class="text-secondary">{{emp.1}}</span></p>
+            <p class="card-text fw-bold">Email : <span class="text-secondary">{{emp.3}}</span></p>
+            <p class="card-text fw-bold">Birthday : <span class="text-secondary">{{emp.5}}</span></p>
+            <p class="card-text fw-bold">Gender : <span class="text-secondary">{{emp.6}}</span></p>
+            <p class="card-text fw-bold">Contact : <span class="text-secondary">{{emp.7}}</span></p>
+            <p class="card-text fw-bold">NID : <span class="text-secondary">{{emp.8}}</span></p>
+            <p class="card-text fw-bold">Address : <span class="text-secondary">{{emp.9}}</span></p>
+            <p class="card-text fw-bold">Department : <span class="text-secondary">{{emp.10}}</span></p>
+            <p class="card-text fw-bold">Degree : <span class="text-secondary">{{emp.11}}</span></p>
+            <p class="card-text fw-bold">Points : <span class="text-secondary">{{emp.14}}</span></p>
+            <a href="{% url 'deleteemployee' emp.0 %}" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+   {% endfor %}
+</div>
+</div>
+{% endblock content %}
