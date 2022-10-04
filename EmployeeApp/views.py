@@ -4,41 +4,34 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.db import connection
 from django.contrib import messages
 
-isadminlogin = False
-isaemplogin = False
-user = ()
 
 def login(request):
-    global isadminlogin,isaemplogin,user
     notfound = True
     cursor = connection.cursor()
     if request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("password")
         type = request.POST.get("emptype")
-        print(type)
 
         if type == "admin":
             cursor.execute(''' select * from alogin ''')
             rows = cursor.fetchall()
             for row in rows:
                 if row[1] == email and row[2] == password:
+                    cursor.execute(''' truncate table user ''')
                     cursor.execute(f''' insert into user(id,isadmin) values({row[0]},TRUE) ''')
-                    isadminlogin = True
-                    user = row
                     return HttpResponseRedirect("/home")
                 elif row[1] == email and row[2] != password:
                     notfound = False
                     messages.error(request,"Incorrect Password!!!")
                     break
         else:
-            cursor.execute(''' select * from employee ''')
+            cursor.execute(''' select id,email,password from employee ''')
             rows = cursor.fetchall()
             for row in rows:
                 if row[1] == email and row[2] == password:
+                    cursor.execute(''' truncate table user ''')
                     cursor.execute(f''' insert into user(id,isadmin) values({row[0]},FALSE) ''')
-                    isaemplogin = True
-                    user = row
                     return HttpResponseRedirect("/home")
                 elif row[1] == email and row[2] != password:
                     notfound = False
@@ -64,7 +57,7 @@ def home(request):
     # cursor.execute(''' select firstName,points from employee natural join rankk''') # returning dual result
     leaderboard = cursor.fetchall()
 
-    cursor.execute(f''' select pname,duedate from project where project.eid = {user[0][0]} ''')
+    cursor.execute(f''' select pname,duedate from project where project.eid = {user[0][0]} and project.status = "Due" ''')
     durprojects = cursor.fetchall()
 
     cursor.execute(f''' select base,bonus,total from salary where salary.eid = {user[0][0]} ''')
@@ -124,6 +117,7 @@ def deleteemployee(request,id):
     cursor = connection.cursor()
     cursor.execute(f''' delete from employee where employee.id = {id} ''')
     cursor.execute(f''' delete from rankk where rankk.eid = {id} ''')
+    cursor.execute(f''' delete from salary where salary.eid = {id} ''')
     return HttpResponseRedirect("/viewemp")
 
 def assignproject(request):
@@ -151,6 +145,21 @@ def salarystatus(request):
     salaries = cursor.fetchall()
     print(salaries)
     return render(request,"salarystatus.html",{"salaries":salaries})
+
+def employeeleave(request):
+    cursor = connection.cursor()
+    cursor.execute(''' select employee_leave.id,pic,firstName,token,start,end,reason,status from employee,employee_leave where employee.id = employee_leave.id ''')
+    leaves = cursor.fetchall()
+    print(leaves)
+    return render(request,"employeeleave.html",{"leaves":leaves})
+
+def approveleave(request,token,todo):
+    cursor = connection.cursor()
+    if todo == "ap":
+        cursor.execute(f''' update employee_leave set status = "Approved" where token = {token} ''')
+    else:
+        cursor.execute(f''' update employee_leave set status = "Due" where token = {token} ''')
+    return HttpResponseRedirect("/empleave")
 
 
 def logout(request):

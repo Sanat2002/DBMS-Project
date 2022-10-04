@@ -1,0 +1,28 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+<div class="text-center fs-2 text-decoration-underline fw-bold">Employees Leave</div>
+<div class="d-flex flex-wrap" style="border:1px solid black;">
+    {% for leave in leaves %}
+        <div class="card" style="width: 25rem;margin:1.3vw 3.4vw;">
+            <img src="{{leave.1}}" class="card-img-top" alt="..." style="height:15vw;width:25.8vw;">
+            <div class="card-body">
+            <h5 class="card-title text-center text-secondary">Details</h5>
+            <p class="card-text fw-bold">Emp. Id : <span class="text-secondary">{{leave.0}}</span></p>
+            <p class="card-text fw-bold">Name : <span class="text-secondary">{{leave.2}}</span></p>
+            <p class="card-text fw-bold">Token : <span class="text-secondary">{{leave.3}}</span></p>
+            <p class="card-text fw-bold">Start Date : <span class="text-secondary">{{leave.4}}</span></p>
+            <p class="card-text fw-bold">End Date : <span class="text-secondary">{{leave.5}}</span></p>
+            <p class="card-text fw-bold">Reason : <span class="text-secondary">{{leave.6}}</span></p>
+            <p class="card-text fw-bold">Status : <span class="text-secondary">{{leave.7}}</span></p>
+            {% if leave.7 == "Due" %}
+            <a href="{% url 'approveleave' leave.3 "ap" %}" class="btn btn-primary">Approve</a>
+            {% else %}
+            <a href="{% url 'approveleave' leave.3 "du" %}" class="btn btn-primary">UnApprove</a>
+            {% endif %}
+            </div>
+        </div>
+   {% endfor %}
+</div>
+</div>
+{% endblock content %}

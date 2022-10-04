@@ -11,5 +11,7 @@ urlpatterns = [
     path('assgproj',views.assignproject,name="assignproject"),
     path('projstat',views.projectstatus,name="projectstatus"),
     path('salstat',views.salarystatus,name="salarystatus"),
+    path('empleave',views.employeeleave,name="employeeleave"),
+    path('apprleave/<int:token>/<str:todo>',views.approveleave,name="approveleave"),
     path('logout',views.logout,name="logout"),
 ]
