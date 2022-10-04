@@ -201,6 +201,18 @@ def submitproject(request,pid):
     return HttpResponseRedirect("/myproj")
 
 def applyleave(request):
+    cursor = connection.cursor()
+    cursor.execute(''' select * from user ''')
+    user = cursor.fetchall()
+    if request.method == "POST":
+        reason = request.POST.get("reason")
+        start = request.POST.get("start")
+        end = request.POST.get("end")
+
+        command = ''' insert into employee_leave(id,start,end,reason,status) values(%s,%s,%s,%s,"Due") '''
+        params = (user[0][0],start,end,reason)
+        cursor.execute(command,params)
+        messages.success(request,"Applied!!!")
     return render(request,"applyleave.html")
 
 
