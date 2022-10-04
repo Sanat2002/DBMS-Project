@@ -1,0 +1,76 @@
+{% extends 'base2.html' %}
+
+{% block style %}
+.title{
+    text-decoration: underline;
+    margin: 2vw 0;
+    font-size: 2.3vw;
+  }
+  input {
+    outline: none;
+    margin: 0;
+    border: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    width: 100%;
+    font-size: 14px;
+    font-family: inherit;
+  }
+
+  .input-group {
+    position: relative;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #ccc;
+  }
+  .card-1 .card-body {
+    padding: 0 90px;
+    padding-top: 55px;
+    padding-bottom: 65px;
+  }
+{% endblock style %}
+
+{% block content %}
+<div class="page-wrapper bg-blue p-t-100 p-b-100 font-robo">
+    <div class="wrapper wrapper--w680">
+        <div class="card card-1" style="border:none;">
+            {% for msg in messages %}
+                <div class="alert alert-warning alert-dismissible fade show" style="margin:1vw 2vw; position: absolute;top: 0vw;" role="alert">
+                <strong>{{msg}}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+            <div class="card-heading"></div>
+            <div class="card-body">
+                <h2 class="title">Apply Leave Form</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input class="input--style-1" type="text" placeholder="Reason" name="reason">
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-2">
+                            <p>Start Date</p>
+                            <div class="input-group">
+                                <input class="input--style-1" type="date" placeholder="start" name="start">
+                               
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <p>End Date</p>
+                            <div class="input-group">
+                                <input class="input--style-1" type="date" placeholder="end" name="end">
+                               
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-t-20">
+                        <button class="btn btn-success" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

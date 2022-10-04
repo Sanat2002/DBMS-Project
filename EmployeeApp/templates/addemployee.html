@@ -31,17 +31,17 @@
 
 
 {% block content %}
-{% for msg in messages %}
-<div class="alert alert-warning alert-dismissible fade show" style="margin:1vw 2vw; position: absolute;top: 5vw;" role="alert">
-  <strong>{{msg}}</strong>
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-{% endfor %}
-  <div class="page-wrapper bg-blue p-t-100 p-b-100 font-robo">
-    <div class="wrapper wrapper--w680">
-      <div class="card card-1">
-        <div class="card-heading"></div>
-        <div class="card-body" style="display: flex;justify-content:center;width: 98.5vw;">
+<div class="page-wrapper bg-blue p-t-100 p-b-100 font-robo">
+  <div class="wrapper wrapper--w680">
+    <div class="card card-1">
+      {% for msg in messages %}
+          <div class="alert alert-warning alert-dismissible fade show" style="margin:1vw 2vw; position: absolute;top: 0vw;" role="alert">
+            <strong>{{msg}}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+      {% endfor %}
+      <div class="card-heading"></div>
+      <div class="card-body" style="display: flex;justify-content:center;width: 98.5vw;">
           <div style="width: 80vw;">
             <h2 class="title">Add Employee</h2>
             <form action="" method="POST">

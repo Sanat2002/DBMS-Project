@@ -1,0 +1,127 @@
+{% extends 'base2.html' %}
+
+{% block style %}
+.title{
+    text-decoration: underline;
+    margin: 2vw 0;
+    font-size: 2.3vw;
+  }
+  input {
+    outline: none;
+    margin: 0;
+    border: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    width: 100%;
+    font-size: 14px;
+    font-family: inherit;
+  }
+
+  .input-group {
+    position: relative;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #ccc;
+  }
+  .card-1 .card-body {
+    padding: 0 90px;
+    padding-top: 55px;
+    padding-bottom: 65px;
+  }
+{% endblock style %}
+
+{% block content %}
+<div class="page-wrapper bg-blue p-t-100 p-b-100 font-robo">
+    <div class="wrapper wrapper--w680">
+        <div class="card card-1">
+            {% for msg in messages %}
+            <div class="alert alert-warning alert-dismissible fade show" style="margin:1vw 2vw; position: absolute;top: 0vw;" role="alert">
+              <strong>{{msg}}</strong>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            <div class="card-heading"></div>
+            <div class="card-body">
+                <h2 class="title">My Info</h2>
+                <form method="POST" >
+                    {% csrf_token %}
+                    <div class="input-group">
+                      <img src="{{detail.12}}" height = 150px width = 150px>
+                    </div>
+
+                    <div class="row row-space">
+                        <div class="col-2">
+                            <div class="input-group">
+                              <p>First Name</p>
+                                 <input class="input--style-1" type="text" name="firstName" value="{{detail.1}}" >
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group">
+                              <p>Last Name</p>
+                                <input class="input--style-1" type="text" name="lastName" value="{{detail.2}}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                      <p>Email</p>
+                        <input class="input--style-1" type="email"  name="email" value="{{detail.3}}" readonly>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-2">
+                            <div class="input-group">
+                              <p>Date of Birth</p>
+                                <input class="input--style-1" type="text" name="birthday" value="{{detail.5}}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group">
+                              <p>Gender</p>
+                              <input class="input--style-1" type="text" name="gender" value="{{detail.6}}" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                      <p>Contact Number</p>
+                        <input class="input--style-1" type="number" name="contact" value="{{detail.7}}">
+                    </div>
+
+                    <div class="input-group">
+                      <p>NID</p>
+                        <input class="input--style-1" type="number" name="nid" value="{{detail.8}}" readonly>
+                    </div>
+
+                    
+                     <div class="input-group">
+                      <p>Address</p>
+                        <input class="input--style-1" type="text"  name="address" value="{{detail.9}}">
+                    </div>
+
+                    <div class="input-group">
+                      <p>Department</p>
+                        <input class="input--style-1" type="text" name="dept" value="{{detail.10}}">
+                    </div>
+
+                    <div class="input-group">
+                      <p>Degree</p>
+                        <input class="input--style-1" type="text" name="degree" value="{{detail.11}}">
+                    </div>
+                    
+                    <div class="input-group">
+                      <p>Pic Url</p>
+                        <input class="input--style-1" type="text" name="picurl" value="{{detail.12}}">
+                    </div>
+
+                    {% comment %} <input type="hidden" name="id" id="textField" value="<?php echo $id;?>" required="required"><br><br> {% endcomment %}
+                    <div class="p-t-20">
+                        <button class="btn btn-primary"  name="send" >Update Info</button>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

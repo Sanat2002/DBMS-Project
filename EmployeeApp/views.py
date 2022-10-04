@@ -161,6 +161,48 @@ def approveleave(request,token,todo):
         cursor.execute(f''' update employee_leave set status = "Due" where token = {token} ''')
     return HttpResponseRedirect("/empleave")
 
+def profile(request):
+    cursor = connection.cursor()
+    cursor.execute(''' select * from user ''')
+    user = cursor.fetchall()
+
+    if request.method == "POST":
+        fname = request.POST.get("firstName")
+        lname = request.POST.get("lastName")
+        contact = request.POST.get("contact")
+        address = request.POST.get("address")
+        dept = request.POST.get("dept")
+        degree = request.POST.get("degree")
+        picurl = request.POST.get("picurl")
+
+        command = ''' update employee set firstName = %s, lastName = %s, contact = %s, address = %s, dept = %s, degree = %s, pic = %s where employee.id = %s '''
+        params = (fname,lname,contact,address,dept,degree,picurl,user[0][0])
+        cursor.execute(command,params)
+        messages.success(request,"Updated!!!")
+
+    cursor.execute(f''' select * from employee where employee.id = {user[0][0]} ''')
+    detail = cursor.fetchone()
+    print(detail)
+
+    return render(request,"profile.html",{"detail":detail})
+
+def myprojects(request):
+    cursor = connection.cursor()
+    cursor.execute(''' select * from user ''')
+    user = cursor.fetchall()
+    cursor.execute(f''' select * from project where project.eid = {user[0][0]} ''')
+    myprojects = cursor.fetchall()
+    print(myprojects)
+    return render(request,"myprojects.html",{"projects":myprojects})
+
+def submitproject(request,pid):
+    cursor = connection.cursor()
+    cursor.execute(f''' update project set status = "Submitted" where pid = {pid} ''')
+    return HttpResponseRedirect("/myproj")
+
+def applyleave(request):
+    return render(request,"applyleave.html")
+
 
 def logout(request):
     cursor = connection.cursor()
