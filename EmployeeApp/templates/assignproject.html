@@ -34,7 +34,7 @@ input {
 {% block content %}
 {% for msg in messages %}
 <div class="alert alert-warning alert-dismissible fade show" style="margin:1vw 2vw; position: absolute;top: 5vw;" role="alert">
-    <strong>{{msg}}</strong>
+    <strong style="color:red;">{{msg}}</strong>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 {% endfor %}

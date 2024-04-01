@@ -1,4 +1,3 @@
-from typing import Tuple
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db import connection
@@ -9,6 +8,7 @@ def login(request):
     notfound = True
     cursor = connection.cursor()
     if request.method == "POST":
+        print("klsd")
         email = request.POST.get("email")
         password = request.POST.get("password")
         type = request.POST.get("emptype")
@@ -16,10 +16,14 @@ def login(request):
         if type == "admin":
             cursor.execute(''' select * from alogin ''')
             rows = cursor.fetchall()
+            print(email)
+            print(password)
             for row in rows:
+                print(row)
                 if row[1] == email and row[2] == password:
                     cursor.execute(''' truncate table user ''')
                     cursor.execute(f''' insert into user(id,isadmin) values({row[0]},TRUE) ''')
+                    print("login")
                     return HttpResponseRedirect("/home")
                 elif row[1] == email and row[2] != password:
                     notfound = False
@@ -99,17 +103,31 @@ def addemployee(request):
             command = '''insert into employee(firstName,lastName,email,password,birthday,gender,contact,nid,address,dept,degree,pic) values(%s,%s,%s,"1234",%s,%s,%s,%s,%s,%s,%s,%s)'''
             params = (fname,lname,email,birthday,gender,contact,nid,address,dept,degree,picurl)
             cursor.execute(command,params)
-            cursor.execute(f''' select id from employee where employee.email = {email} ''')
-            emp = cursor.fetchall()
-            cursor.execute(f''' insert into rankk(eid,points) values({emp[0][0]},0) ''')
-            cursor.execute(f''' insert into salary(eid,base,bonus,total) values({emp[0][0]},{salary},0,{salary}) ''')
+            print("it")
+            print(type(email))
+            # cursor.execute(f''' select id from employee where employee.firstName = {fname} ''')
+            cursor.execute(''' select * from employee ''')
+            res = cursor.fetchall()
+            for em in res:
+                if em[3] == email:
+                    id = em[0]
+            # command2 = ''' select id from employee where employee.email = %s '''
+            # params2 = (email)
+            # cursor.execute(command2,params2)
+            # emp = cursor.fetchall()
+            # print(emp)
+            cursor.execute(f''' insert into rankk(eid,points) values({id},0) ''')
+            cursor.execute(f''' insert into salary(eid,base,bonus,total) values({id},{salary},0,{salary}) ''')
+            print("employee added")
             messages.success(request,"Employee Added!!!")
     return render(request,"addemployee.html")
 
 def viewemployee(request):
     cursor = connection.cursor()
     cursor.execute(''' select * from employee,rankk where employee.id = rankk.eid ''')
+    # cursor.execute(''' select * from employee ''')
     employees = cursor.fetchall()
+    print("view employe")
     print(employees)
     return render(request,"viewemployee.html",{"employees":employees})
 
@@ -218,5 +236,7 @@ def applyleave(request):
 
 def logout(request):
     cursor = connection.cursor()
+    print('q')
     cursor.execute(''' truncate table user ''') # delete all rows without destroying structure of table
+    print("ss")
     return HttpResponseRedirect("/")
